@@ -17,8 +17,12 @@
             <i class="site-header__menu-trigger fa fa-bars" aria-hidden="true"></i>
             <div class="site-header__menu group">
                 <nav class="main-navigation">
+                    <?php /*
+                    wp_nav_menu([
+                        'theme_location'    => 'header-menu-location'
+                    ]); */ ?>
                     <ul>
-                        <li><a href="<?php echo site_url('/about-us'); ?>">About Us</a></li>
+                        <li <?php echo is_page('about-us') || wp_get_post_parent_id(0) == 10 ? 'class="current-menu-item"' : ''; ?>><a href="<?php echo site_url('/about-us'); ?>">About Us</a></li>
                         <li><a href="#">Programs</a></li>
                         <li><a href="#">Events</a></li>
                         <li><a href="#">Campuses</a></li>
