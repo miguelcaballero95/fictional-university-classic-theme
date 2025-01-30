@@ -15,10 +15,15 @@
  * and Font Awesome icons.
  */
 function university_files() {
+
+    wp_enqueue_script('google-map', '//maps.googleapis.com/maps/api/js?key=' . GOOGLE_API, null, '1.0', true);
+
     // Enqueue the main JavaScript file
     wp_enqueue_script('main-university-js', get_theme_file_uri('/build/index.js'), ['jquery'], '1.0', true);
+
     wp_enqueue_style('custom-google-fonts', '//fonts.googleapis.com/css?family=Roboto+Condensed:300,300i,400,400i,700,700i|Roboto:100,300,400,400i,700,700i');
     wp_enqueue_style('font-awesome', '//maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css');
+
     // Enqueue main and additional styles
     wp_enqueue_style('university-main-styles', get_theme_file_uri('/build/style-index.css'));
     wp_enqueue_style('university-extra-styles', get_theme_file_uri('/build/index.css'));
@@ -53,6 +58,11 @@ add_action('after_setup_theme', 'university_features');
  * @param WP_Query $query The current query object.
  */
 function university_adjust_queries(WP_Query $query) {
+
+    // Ensure this runs only on the front end, for the 'campus' post type archive, and the main query
+    if (!is_admin() && is_post_type_archive('campus') && $query->is_main_query()) {
+        $query->set('posts_per_page', -1);
+    }
 
     // Ensure this runs only on the front end, for the 'program' post type archive, and the main query
     if (!is_admin() && is_post_type_archive('program') && $query->is_main_query()) {
@@ -90,3 +100,9 @@ function page_banner(array $args = []) { ?>
     </div>
 <?php
 }
+
+function university_map_key($api) {
+    $api['key'] = GOOGLE_API;
+    return $api;
+}
+add_filter('acf/fields/google_map/api', 'university_map_key');
