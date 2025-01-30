@@ -7,24 +7,16 @@ while (have_posts()) {
     page_banner(); ?>
     <div class="container container--narrow page-section">
         <div class="generic-content">
-            <div class="metabox metabox--position-up metabox--with-home-link">
-                <p>
-                    <a class="metabox__blog-home-link" href="<?php echo get_post_type_archive_link('event'); ?>">
-                        <i class="fa fa-home" aria-hidden="true"></i>
-                        Events Home
-                    </a>
-                    <span class="metabox__main">
-                        <?php the_title(); ?>
-                    </span>
-                </p>
+            <div class="row group">
+                <div class="one-third"><?php the_post_thumbnail('professor-portrait'); ?></div>
+                <div class="two-thirds"><?php the_content(); ?></div>
             </div>
-            <?php the_content(); ?>
         </div>
         <?php
         $related_programs = get_field('related_programs');
         if ($related_programs): ?>
             <hr class="section-break">
-            <h2 class="headline headline--medium">Related Programs</h2>
+            <h2 class="headline headline--medium">Subject(s) Taught</h2>
             <ul class="link-list min-list">
                 <?php foreach ($related_programs as $program): ?>
                     <li>

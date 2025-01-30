@@ -37,8 +37,12 @@ function university_features() {
     register_nav_menu('footer-location-one', 'Footer Location One');
     register_nav_menu('footer-location-two', 'Footer Location Two');
 
-    // Enable support for dynamic title tags
+    // Enable support
     add_theme_support('title-tag');
+    add_theme_support('post-thumbnails');
+    add_image_size('professor-landscape', 400, 260, true);
+    add_image_size('professor-portrait', 480, 650, true);
+    add_image_size('page-banner', 1500, 350, true);
 }
 add_action('after_setup_theme', 'university_features');
 
@@ -73,3 +77,16 @@ function university_adjust_queries(WP_Query $query) {
     }
 }
 add_action('pre_get_posts', 'university_adjust_queries');
+
+function page_banner(array $args = []) { ?>
+    <div class="page-banner">
+        <div class="page-banner__bg-image" style="background-image: url(<?php echo $args['background'] ?? get_field('page_banner_background_image')['sizes']['page-banner'] ?? get_theme_file_uri('/images/ocean.jpg'); ?>)"></div>
+        <div class="page-banner__content container container--narrow">
+            <h1 class="page-banner__title"><?php echo $args['title'] ?? get_the_title(); ?></h1>
+            <div class="page-banner__intro">
+                <p><?php echo $args['subtitle'] ?? get_field('page_banner_subtitle'); ?></p>
+            </div>
+        </div>
+    </div>
+<?php
+}
