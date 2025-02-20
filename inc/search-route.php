@@ -5,7 +5,8 @@ add_action('rest_api_init', 'university_register_search');
 function university_register_search() {
     register_rest_route('university/v1', 'search', [
         'methods' => WP_REST_Server::READABLE,
-        'callback'  => 'university_search_results'
+        'callback'  => 'university_search_results',
+        'permission_callback'   => '__return_true'
     ]);
 }
 function university_search_results($data) {
